@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.ArmyUserMapper">
+
+
+	<resultMap id="resultMsg" type="com.shine.amodel.ArmyUser">
+		<id 	column="id" 			property="id"/>
+		<result column="uid" 			property="uid"/>
+		<result column="status" 		property="status"/>
+		<result column="name" 			property="name"/>
+		<result column="icon" 			property="icon"/>
+		<result column="armyId" 		property="armyId"/>
+		<result column="armyJob" 		property="armyJob"/>
+		<result column="donationCoin" 	property="donationCoin"/>
+		<result column="orderId" 		property="orderId"/>
+		<result column="donationGem" 	property="donationGem"/>
+		<result column="inerTime"		property="inerTime"/>
+		<result column="getOrderTime" 	property="getOrderTime"/>
+	</resultMap>
+
+
+	<select id="selectArmyUser" parameterType="Int"  resultMap="resultMsg" flushCache="true">
+		SELECT
+			id,
+			uid,
+			status,
+			name,
+			icon,
+			armyId,
+			armyJob,
+			donationCoin,
+			orderId,
+			donationGem,
+			getOrderTime,
+			inerTime
+		FROM
+			army_user
+		WHERE
+			status = 1 and armyId=#{armyId}
+	</select>
+	<select id="selectArmyUserOne" parameterType="com.shine.amodel.ArmyUser" resultType="com.shine.amodel.ArmyUser" flushCache="true">
+		SELECT
+			id,
+			uid,
+			status,
+			name,
+			icon,
+			armyId,
+			armyJob,
+			donationCoin,
+			orderId,
+			donationGem,
+			getOrderTime,
+			inerTime
+		FROM
+			army_user
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="uid !=null and uid !=0">
+				uid=#{uid} and
+			</if>
+			<if test="id !=null and id !=0">
+				id=#{id}  and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId}  and
+			</if>
+		</trim>
+		order by id desc limit 1
+	</select>
+	<select id="selectArmyUserCount" parameterType="com.shine.amodel.ArmyUser"  resultType="Int" flushCache="true">
+		SELECT
+			COUNT(0)
+		FROM
+			army_user
+		WHERE
+			STATUS = 1 and armyId=#{armyId}
+	</select>
+	<insert id="insertArmyUser" parameterType="com.shine.amodel.ArmyUser" useGeneratedKeys="true" keyProperty="uid">
+		INSERT INTO army_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				inerTime,
+			<if test="uid !=null and uid !=0">
+				uid,
+			</if>
+			<if test="status !=null and status !=2">
+				status,
+			</if>
+			<if test="name !=null and name !=''">
+				name,
+			</if>
+			<if test="icon !=null and icon !=''">
+				icon,
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId,
+			</if>
+			<if test="armyJob !=null and armyJob !=0">
+				armyJob,
+			</if>
+			<if test="donationCoin !=null and donationCoin !=0">
+				donationCoin,
+			</if>
+			<if test="orderId !=null and orderId !=0">
+				orderId,
+			</if>
+			<if test="donationGem !=null and donationGem !=0">
+				donationGem,
+			</if>
+			<if test="inerTime !=null and inerTime !=''">
+				inerTime,
+			</if>
+			<if test="getOrderTime !=null and getOrderTime !=0">
+				getOrderTime,
+			</if>
+		</trim>
+		<trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+				now(),
+			<if test="uid !=null and uid !=0">
+				#{uid},
+			</if>
+			<if test="status !=null and status !=2">
+				#{status},
+			</if>
+			<if test="name !=null and name !=''">
+				#{name},
+			</if>
+			<if test="icon !=null and icon !=''">
+				#{icon},
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				#{armyId},
+			</if>
+			<if test="armyJob !=null and armyJob !=0">
+				#{armyJob},
+			</if>
+			<if test="donationCoin !=null and donationCoin !=0">
+				#{donationCoin},
+			</if>
+			<if test="orderId !=null and orderId !=0">
+				#{orderId},
+			</if>
+			<if test="donationGem !=null and donationGem !=0">
+				#{donationGem},
+			</if>
+			<if test="inerTime !=null and inerTime !=''">
+				#{inerTime},
+			</if>
+			<if test="getOrderTime !=null and getOrderTime !=0">
+				#{getOrderTime},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateArmyUser" parameterType="com.shine.amodel.ArmyUser" useGeneratedKeys="true" keyProperty="id" >
+		update army_user
+		<trim prefix="set " suffixOverrides=",">
+			<if test="status !=null and status !=2">
+				status=#{status},
+			</if>
+			<if test="name !=null and name !=''">
+				name=#{name},
+			</if>
+			<if test="icon !=null and icon !=''">
+				icon=#{icon},
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId},
+			</if>
+			<if test="armyJob !=null and armyJob !=0">
+				armyJob=#{armyJob},
+			</if>
+			<if test="donationCoin !=null and donationCoin !=0">
+				donationCoin=#{donationCoin},
+			</if>
+			<if test="donationGem !=null and donationGem !=0">
+				donationGem=#{donationGem},
+			</if>
+			<if test="orderId !=null and orderId !=0">
+				orderId=#{orderId},
+			</if>
+			<if test="getOrderTime !=null and getOrderTime !=0">
+				getOrderTime=#{getOrderTime},
+			</if>
+		</trim>
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="uid !=null and uid !=0">
+				uid=#{uid} and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+		</trim>
+	</update>
+
+
+	<delete id="deleteArmyUser" parameterType="com.shine.amodel.ArmyUser" >
+		DELETE army_user from army_user
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="uid !=null and uid !=0">
+				uid=#{uid} and
+			</if>
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+		</trim>
+	</delete>
+</mapper>

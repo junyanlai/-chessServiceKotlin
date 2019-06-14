@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.UserMapper">
+    <update id="updateUserMsgByUID" parameterType="com.shine.amodel.User" >
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="cid !=null and cid !=''">
+                cid=#{cid},
+            </if>
+            <if test="avatar !=null and avatar !=''">
+                avatar=#{avatar},
+            </if>
+            <if test="hash !=null and hash !=''">
+                hash=#{hash},
+            </if>
+            <if test="nick !=null and nick !=''">
+                nick=#{nick},
+            </if>
+            <if test="line !=null and line !=0">
+                line=#{line},
+            </if>
+            <if test="name !=null and name !=''">
+                name=#{name},
+            </if>
+            <if test="email !=null and email !=''">
+                email=#{email},
+            </if>
+            <if test="phone !=null and phone !=''">
+                phone=#{phone},
+            </if>
+            <if test="accountType !=null and accountType !=''">
+                accountType=#{accountType},
+            </if>
+            <if test="accountGG !=null and accountGG !=''">
+                accountGG=#{accountGG},
+            </if>
+            <if test="accountYH !=null and accountYH !=''">
+                accountYH=#{accountYH},
+            </if>
+            <if test="accountFB !=null and accountFB !=''">
+                accountFB=#{accountFB},
+            </if>
+            <if test="device !=null and device !=''">
+                device=#{device},
+            </if>
+            <if test="hardware !=null and hardware !=''">
+                hardware=#{hardware},
+            </if>
+            <if test="packSize !=null and packSize!=99">
+                packSize=#{packSize},
+            </if>
+            <!--            <if test="age !=null">
+                            age=getUserMsgByUID#{age},
+                        </if>-->
+            <if test="sex !=null and sex !=0">
+                sex=#{sex},
+            </if>
+            <if test="level !=null and level !=0">
+                level=#{level},
+            </if>
+            <if test="vipLevel !=null and vipLevel !=0">
+                vipLevel=#{vipLevel},
+            </if>
+            <if test="exp !=null and exp !=0 ">
+                exp=#{exp},
+            </if>
+            <if test="expFashion !=null ">
+                expFashion=#{expFashion},
+            </if>
+            <if test="medal0 !=null ">
+                medal0=#{medal0},
+            </if>
+            <if test="medal1 !=null and medal1 !=0">
+                medal1=#{medal1},
+            </if>
+            <if test="medal2 !=null and medal2 !=0">
+                medal2=#{medal2},
+            </if>
+            <if test="coin !=null and coin !=0">
+                coin=#{coin},
+            </if>
+            <if test="gem !=null and gem !=0">
+                gem=#{gem},
+            </if>
+            <if test="bank !=null and bank !=0">
+                bank=#{bank},
+            </if>
+            <if test="aid !=null and aid !=0">
+                aid=#{aid},
+            </if>
+            <if test="rid !=null and rid !=0">
+                rid=#{rid},
+            </if>
+            <if test="registerTime !=null and registerTime !=''">
+                registerTime=#{registerTime},
+            </if>
+            <if test="loginTime !=null and loginTime !=''">
+                loginTime=#{loginTime},
+            </if>
+            <if test="birthday !=null and birthday !=''">
+                birthday=#{birthday},
+            </if>
+            <if test="signTimes !=null ">
+                signTimes=#{signTimes},
+            </if>
+            <if test="lastSignDate !=null and lastSignDate !=''">
+                lastSignDate=#{lastSignDate},
+            </if>
+            <if test="signCount !=null ">
+                signCount=#{signCount},
+            </if>
+            <if test="gameCoin != null  and gameCoin != 0">
+                gameCoin=#{gameCoin},
+            </if>
+        </trim>
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+        </trim>
+    </update>
+    <delete id="deleteUser" parameterType="com.shine.amodel.User">
+        delete from user
+           where
+                uid =#{uid}
+    </delete>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.LivenessMapper">
+
+	<resultMap id="resultMsg" type="com.shine.amodel.Liveness">
+		<id column="id" property="id"/>
+		<result column="count" property="count"/>
+		<result column="date" property="date"/>
+	</resultMap>
+
+
+	<select id="selectLiveness" parameterType="com.shine.amodel.Liveness" resultMap="resultMsg">
+		  SELECT
+			id,
+			count,
+			date
+		FROM
+			liveness
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="date != null and date != '' ">
+				date=#{date} and
+			</if>
+		</trim>
+		order by id desc
+	</select>
+
+	<select id="selectLivenessCount" parameterType="com.shine.amodel.Liveness" resultType="java.lang.Integer">
+		SELECT
+			COUNT(0)
+		FROM
+			liveness
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="date != null and date != '' ">
+				date=#{date} and
+			</if>
+		</trim>
+		order by id desc limit 1
+	</select>
+
+	<insert id="insertLiveness" parameterType="com.shine.amodel.Liveness" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO liveness
+		(
+			count,
+			date
+		)
+		values(
+			#{count},
+			#{date}
+		)
+	</insert>
+
+</mapper>

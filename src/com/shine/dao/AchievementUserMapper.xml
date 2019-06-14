@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.AchievementUserMapper">
+
+    <resultMap id="resultMsg" type="com.shine.amodel.AchievementUser" >
+        <id     column="auid"           property="auid"/>
+        <result column="uid"            property="uid"/>
+        <result column="atid"           property="atid"/>
+        <result column="aname"           property="aname"/>
+        <result column="triggerType" property="triggerType"/>
+        <result column="atype"          property="atype"/>
+        <result column="teps"           property="teps"/>
+        <result column="nextTeps"           property="nextTeps"/>
+        <result column="isCreated"      property="isCreated"/>
+        <result column="isfulfill"      property="isfulfill"/>
+        <result column="time"           property="time"/>
+        <result column="createDate"     property="createDate"/>
+        <result column="createUser"     property="createUser"/>
+    </resultMap>
+    <select id="selectAchievementUser"  parameterType="com.shine.amodel.AchievementUser" resultMap="resultMsg" flushCache="true">
+        SELECT
+        auid,
+        uid,
+        atid,
+        atype,
+        teps,
+        nextTeps,
+        isCreated,
+        time,
+        createDate,
+        createUser
+        FROM
+        achievement_user
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+            <if test="auid !=null and auid !=0">
+                auid=#{auid} and
+            </if>
+            <if test="atid !=null and atid !=0">
+                atid=#{atid} and
+            </if>
+            <if test="isCreated !=null ">
+                isCreated = #{isCreated} and
+            </if>
+            <if test="isfulfill !=null ">
+                isfulfill = #{isfulfill} and
+            </if>
+            <if test="atype !=null and atype !=''">
+                atype = #{atype} and
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectOnline" parameterType="com.shine.amodel.AchievementUser" resultType="com.shine.amodel.AchievementUser" flushCache="true">
+        SELECT
+            auid,
+            uid,
+            atid,
+            atype,
+            teps,
+            nextTeps,
+            isCreated,
+            time,
+            createDate,
+            createUser
+        FROM
+            achievement_user
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+            <if test="auid !=null and auid !=0">
+                auid=#{auid} and
+            </if>
+            <if test="atid !=null and atid !=0">
+                atid=#{atid} and
+            </if>
+            <if test="atype !=null and atype !=''">
+                atype like concat('%',#{atype},'%') and
+            </if>
+            <if test="isCreated !=null and isCreated ==0">
+                isCreated=#{isCreated} and
+            </if>
+            <if test="isCreated !=null and isCreated ==1">
+                isCreated=#{isCreated} and
+            </if>
+        </trim>
+        order by auid desc limit 1
+    </select>
+
+    <select id="selectAchievementUserOne" resultMap="resultMsg" flushCache="true">
+        SELECT
+            auid,
+            uid,
+            atid,
+            aname,
+            atype,
+            nextTeps,
+            triggerType,
+            teps,
+            isCreated,
+            isfulfill,
+            time,
+            createDate,
+            createUser
+        FROM
+        achievement_user
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+            <if test="auid !=null and auid !=0">
+                auid=#{auid} and
+            </if>
+            <if test="atid !=null and atid !=0">
+                atid=#{atid} and
+            </if>
+            <if test="atype !=null and atype !=''">
+                atype =#{atype} and
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType = #{triggerType} and
+            </if>
+            <if test="isCreated !=null">
+                isCreated =#{isCreated}
+            </if>
+        </trim>
+        order by auid limit 1
+    </select>
+
+    <select id="selectAuserMsg" resultMap="resultMsg" flushCache="true">
+        SELECT
+            auid,
+            uid,
+            atid,
+            aname,
+            atype,
+            triggerType,
+            teps,
+            nextTeps,
+            isCreated,
+            isfulfill,
+            time,
+            createDate,
+            createUser
+        FROM
+        achievement_user
+     where uid=#{uid} and (atype='day' or atype='online')
+    </select>
+   <!-- <insert id="insertAchievementUser" parameterType="com.shine.amodel.AchievementUser" useGeneratedKeys="true" keyProperty="uid">
+        INSERT into
+        achievement_user (
+            uid,
+            atid,
+            aname,
+            atype,
+            triggerType,
+            teps,
+            nextTeps,
+            isCreated,
+            isfulfill,
+            time,
+            createDate,
+            createUser
+            )
+        VALUES
+        (#{uid},#{atid},#{aname},#{atype},#{triggerType},#{teps},#{nextTeps},#{isCreated},#{isfulfill},#{time},now(),#{uid})
+    </insert>-->
+    <insert id="insertAchievementUser" parameterType="com.shine.amodel.AchievementUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO achievement_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid !=null and uid !=''">
+                uid,
+            </if>
+            <if test="atid !=null and atid !=0">
+                atid,
+            </if>
+            <if test="aname !=null and aname !=''">
+                aname,
+            </if>
+            <if test="atype !=null and atype !=''">
+                atype,
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType,
+            </if>
+            <if test="teps !=null and teps !=0">
+                teps,
+            </if>
+            <if test="nextTeps !=null and nextTeps !=0">
+                nextTeps,
+            </if>
+            <if test="isCreated !=null">
+                isCreated,
+            </if>
+            <if test="isfulfill !=null">
+                isfulfill,
+            </if>
+            <if test="time !=null and time !=0">
+                time,
+            </if>
+                createDate,
+                createUser
+        </trim>
+        <trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+            <if test="uid !=null and uid !=0">
+                #{uid},
+            </if>
+            <if test="atid !=null and atid !=0">
+                #{atid},
+            </if>
+            <if test="aname !=null and aname !=''">
+                #{aname},
+            </if>
+            <if test="atype !=null and atype !=''">
+                #{atype},
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                #{triggerType},
+            </if>
+            <if test="teps !=null and teps !=0">
+                #{teps},
+            </if>
+            <if test="nextTeps !=null and nextTeps !=0">
+                #{nextTeps},
+            </if>
+            <if test="isCreated !=null">
+                #{isCreated},
+            </if>
+            <if test="isfulfill !=null ">
+                #{isfulfill},
+            </if>
+            <if test="time !=null and time !=0">
+                #{time},
+            </if>
+                now(),
+                #{uid}
+        </trim>
+    </insert>
+
+    <update id="updateAchievementUser" parameterType="com.shine.amodel.AchievementUser" >
+        update achievement_user
+        <trim prefix="set" suffixOverrides=",">
+
+            <if test="atid !=null and atid !=0">
+                     atid=#{atid},
+            </if>
+            <if test="atype !=null and atype !=''">
+                atype=#{atype},
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType=#{triggerType},
+            </if>
+            <if test="aname !=null and aname !=''">
+                aname=#{aname},
+            </if>
+            <if test="teps !=null and teps !=0">
+                teps=#{teps},
+            </if>
+            <if test="time !=null and time !=0">
+                time=#{time},
+            </if>
+            <if test="isCreated !=null ">
+                isCreated=#{isCreated},
+            </if>
+            <if test="isfulfill !=null ">
+                isfulfill=#{isfulfill},
+            </if>
+            <if test="createDate !=null and createDate !=0">
+                createDate=#{createDate},
+            </if>
+            <if test="createUser !=null and createUser !=0">
+                createUser=#{createUser},
+            </if>
+
+        </trim>
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="auid !=null and auid !=0">
+                auid=#{auid} and
+            </if>
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+            <if test="atid !=null and atid !=0">
+                atid=#{atid} and
+            </if>
+            <if test="atype !=null and atype !=''">
+                atype like concat('%',#{atype},'%') and
+            </if>
+        </trim>
+    </update>
+
+    <delete id="deleteAchievementUser" parameterType="com.shine.amodel.AchievementUser" >
+        DELETE achievement_user from achievement_user
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+            <if test="auid !=null and auid !=0">
+                auid=#{auid} and
+            </if>
+            <if test="atid !=null and atid !=0">
+                atid=#{atid} and
+            </if>
+            <if test="atype !=null and atype !=''">
+                atype=#{atype} and
+            </if>
+        </trim>
+    </delete>
+
+    <select id="getAchievementCount" parameterType="com.shine.amodel.AchievementUser" resultMap="resultMsg">
+     select au.*,ate.atid from achievement_user au left join achievement_temp ate on au.atid=ate.atid
+        where  ate.type=#{atype} and au.uid=#{uid}
+        <if test="isCreated !=null and isCreated != 2">
+            and isCreated=#{isCreated}
+        </if>
+    </select>
+
+
+</mapper>

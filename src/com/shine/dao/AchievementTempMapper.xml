@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.AchievementTempMapper">
+
+    <resultMap id="resultMsg" type="com.shine.amodel.AchievementTemp" >
+        <id     column="atid"           property="atid"/>
+        <result column="name"           property="name"/>
+        <result column="commodityId"    property="commodityId"/>
+        <result column="type"           property="type"/>
+        <result column="addLevel"        property="addLevel"/>
+        <result column="award"          property="award"/>
+        <result column="teps"           property="teps"/>
+        <result column="detail"         property="detail"/>
+        <result column="state"          property="state"/>
+        <result column="goodsType"      property="goodsType"/>
+        <result column="triggerType"      property="triggerType"/>
+        <result column="addExp"         property="addExp"/>
+        <result column="addGold"        property="addGold"/>
+        <result column="addOnline"      property="addOnline"/>
+        <result column="addDaily"       property="addDaily"/>
+        <result column="addDiscount"    property="addDiscount"/>
+        <result column="createDate"     property="createDate"/>
+        <result column="createUser"     property="createUser"/>
+    </resultMap>
+
+
+
+    <select id="selectAchievementTemp"  resultMap="resultMsg" parameterType="com.shine.amodel.AchievementTemp">
+        SELECT
+            atid,
+            name,
+            commodityId,
+            type,
+            goodsType,
+            triggerType,
+            addExp,
+            addGold,
+            addOnline,
+            addDaily,
+            addDiscount,
+            award,
+            addLevel,
+            teps,
+            detail,
+            state,
+            createDate,
+            createUser
+        FROM
+        achievement_temp
+        <trim prefix="WHERE " suffixOverrides="and">
+            state=0 and
+            <if test="atid !=null and atid !=0">
+                atid=#{atid} and
+            </if>
+            <if test="type !=null and type !=''">
+                type=#{type} and
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType=#{triggerType}and
+            </if>
+        </trim>
+    </select>
+    <select id="selectAllTempMsg"  resultMap="resultMsg" parameterType="com.shine.amodel.AchievementTemp">
+        select * from achievement_temp  group by triggerType HAVING type like concat('%',#{type},'%')
+    </select>
+    <select id="selectUnAchievementTemp"  resultMap="resultMsg" parameterType="java.util.List">
+        SELECT
+            atid,
+            name,
+            commodityId,
+            type,
+            goodsType,
+            triggerType,
+            addExp,
+            addGold,
+            addOnline,
+            addDaily,
+            addDiscount,
+            addLevel,
+            award,
+            teps,
+            detail,
+            state,
+            createDate,
+            createUser
+        FROM
+        achievement_temp
+        <trim prefix="WHERE " suffixOverrides="and">
+            state=0 and
+            <if test="list !=null">
+                atid NOT in (
+                <foreach collection="list" item="ids" separator="," >
+                    ${ids.atid}
+                </foreach>
+                )
+            </if>
+        </trim>
+    </select>
+    <select id="selectAchievementTempByTeps" resultMap="resultMsg" parameterType="com.shine.amodel.AchievementTemp">
+        SELECT
+            atid,
+            name,
+            commodityId,
+            type,
+            goodsType,
+            triggerType,
+            addExp,
+            addGold,
+            addOnline,
+            addDaily,
+            addDiscount,
+            addLevel,
+            award,
+            teps,
+            detail,
+            state,
+            createDate,
+            createUser
+        FROM
+            achievement_temp
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType like concat('%',#{triggerType},'%') and
+            </if>
+            <if test="teps != null and teps !=0">
+                 teps <![CDATA[ >= ]]> #{teps} and
+            </if>
+            <if test="type != null and type != ''">
+                  type like concat('%',#{type},'%') and
+            </if>
+        </trim>
+           order by teps  limit 1
+    </select>
+
+
+    <select id="selectAtempByteps" resultMap="resultMsg" parameterType="com.shine.amodel.AchievementTemp">
+        SELECT
+                atid,
+                name,
+                commodityId,
+                type,
+                goodsType,
+                triggerType,
+                addExp,
+                addGold,
+                addOnline,
+                addDaily,
+                addDiscount,
+                addLevel,
+                award,
+                teps,
+                detail,
+                state,
+                createDate,
+                createUser
+                FROM
+                achievement_temp
+        where
+                triggerType like concat('%',#{triggerType},'%') and
+                teps <![CDATA[ > ]]> #{teps}
+        order by teps  limit 1
+    </select>
+    <select id="selectAchievementTempByTepsAll" resultMap="resultMsg" parameterType="com.shine.amodel.AchievementTemp">
+        SELECT
+            atid,
+            name,
+            commodityId,
+            type,
+            goodsType,
+            triggerType,
+            addExp,
+            addGold,
+            addOnline,
+            addDaily,
+            addDiscount,
+            addLevel,
+            award,
+            teps,
+            detail,
+            state,
+            createDate,
+            createUser
+        FROM
+            achievement_temp
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="atid !=null and atid !=0">
+                atid=#{atid}  and
+            </if>
+            <if test="teps !=null and teps !=0">
+                teps=#{teps}  and
+            </if>
+            <if test="type !=null and type !=''">
+                type like concat('%',#{type},'%') and
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType like concat('%',#{triggerType},'%') and
+            </if>
+        </trim>
+
+    </select>
+    <select id="selectAchievementTempOne" resultMap="resultMsg" parameterType="com.shine.amodel.AchievementTemp">
+        SELECT
+            atid,
+            name,
+            commodityId,
+            type,
+            goodsType,
+            triggerType,
+            addExp,
+            addGold,
+            addOnline,
+            addDaily,
+            addDiscount,
+            addLevel,
+            award,
+            teps,
+            detail,
+            state,
+            createDate,
+            createUser
+        FROM
+        achievement_temp
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="atid !=null and atid !=0">
+                atid=#{atid}  and
+            </if>
+            <if test="teps !=null and teps !=0">
+                teps=#{teps}  and
+            </if>
+            <if test="type !=null and type !=''">
+                type = #{type} and
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType = #{triggerType} and
+            </if>
+        </trim>
+        order by teps desc  limit 1
+    </select>
+    <insert id="insertAchievementTemp" parameterType="com.shine.amodel.AchievementTemp" useGeneratedKeys="true" keyProperty="uid">
+        INSERT INTO `goldcolor`.`achievement_temp` (
+            `name`,
+            `commodityId`,
+            triggerType,
+            `goodsType`,
+            `addExp`,
+            `addGold`,
+            `addOnline`,
+            `addDaily`,
+            `addDiscount`,
+            `addLevel`,
+            `type`,
+            `award`,
+            `teps`,
+            `detail`,
+            `state`,
+            `createDate`,
+            `createUser`
+        )
+        VALUES
+        (#{name},#{commodityId},#{triggerType},#{goodsType},#{addExp},#{addGold},#{addOnline},#{addDaily},#{addDiscount},#{addLevel},#{type},#{award},#{teps},#{detail},#{state},now())
+    </insert>
+    <update id="updateAchievementTemp" parameterType="com.shine.amodel.AchievementTemp">
+        update achievement_temp
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name !=null and name !=''">
+                name= #{name} ,
+            </if>
+            <if test="commodityId !=null and commodityId !=0">
+                commodityId= #{commodityId},
+            </if>
+            <if test="triggerType !=null and triggerType !=''">
+                triggerType= #{triggerType},
+            </if>
+            <if test="goodsType !=null and goodsType !=''">
+                goodsType=  #{goodsType}  ,
+            </if>
+            <if test="addExp !=null and addExp !=0">
+                addExp=#{addExp} ,
+            </if>
+            <if test="addGold !=null and addGold !=0">
+                addGold= #{addGold} ,
+            </if>
+            <if test="addOnline !=null and addOnline !=0">
+                addOnline=  #{addOnline} ,
+            </if>
+            <if test="addDaily !=null and addDaily!=0 ">
+                addDaily= #{addDaily} ,
+            </if>
+            <if test="addDiscount !=null and addDiscount !=0">
+                addDiscount= #{addDiscount} ,
+            </if>
+            <if test="addLevel !=null and addLevel !=0">
+                addLevel= #{addLevel} ,
+            </if>
+            <if test="type !=null and type !=''">
+                type=  #{type},
+            </if>
+            <if test="award !=null and award !=0">
+                award=   #{award} ,
+            </if>
+            <if test="teps !=null and teps !=0">
+                teps= #{teps},
+            </if>
+            <if test="detail !=null and detail !=''">
+                detail=  #{detail}  ,
+            </if>
+            <if test="state !=null and state !=0">
+                state= #{state}  ,
+            </if>
+        </trim>
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="atid !=null and atid !=0">
+                atid=#{atid} and
+            </if>
+        </trim>
+    </update>
+    <delete id="deleteAchievementTemp" parameterType="com.shine.amodel.AchievementTemp" >
+        DELETE achievement_temp from achievement_user
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+            <if test="auid !=null and auid !=0">
+                auid=#{auid}  and
+            </if>
+            <if test="atid !=null and atid !=0">
+                atid=#{atid}  and
+            </if>
+            <if test="type !=null and type !=''">
+                type=#{type} and
+            </if>
+        </trim>
+    </delete>
+
+</mapper>

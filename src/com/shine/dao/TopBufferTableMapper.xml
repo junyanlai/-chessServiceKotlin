@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.TopBufferTableMapper">
+
+    <resultMap id="resultMsg" type="com.shine.amodel.TopBufferTable" >
+        <id     column="id"           property="id"/>
+        <result column="uid"            property="uid"/>
+        <result column="authCode"           property="authCode"/>
+        <result column="facTradeSeq"           property="facTradeSeq"/>
+        <result column="time" property="time"/>
+    </resultMap>
+
+    <insert id="insertTop" parameterType="com.shine.amodel.TopBufferTable" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO top_buffer_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid !=null and uid !=0">
+                uid,
+            </if>
+            <if test="authCode !=null and authCode !=''">
+                authCode,
+            </if>
+            <if test="facTradeSeq !=null and facTradeSeq !=''">
+                facTradeSeq,
+            </if>
+            <if test="customerId !=null and customerId !=''">
+                customerId,
+            </if>
+            <if test="tradeSeq !=null and tradeSeq !=''">
+                tradeSeq,
+            </if>
+                time
+        </trim>
+        <trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+            <if test="uid !=null and uid !=0">
+                #{uid},
+            </if>
+            <if test="authCode !=null and authCode !=''">
+                #{authCode},
+            </if>
+            <if test="facTradeSeq !=null and facTradeSeq !=''">
+                #{facTradeSeq},
+            </if>
+            <if test="customerId !=null and customerId !=''">
+                #{customerId},
+            </if>
+            <if test="tradeSeq !=null and tradeSeq !=''">
+                #{tradeSeq},
+            </if>
+                now()
+        </trim>
+    </insert>
+
+    <delete id="deleteTop" parameterType="com.shine.amodel.TopBufferTable" >
+        DELETE top_buffer_table from top_buffer_table
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="uid !=null and uid !=0">
+                uid=#{uid} and
+            </if>
+            <if test="authCode !=null and authCode !=''">
+                authCode=#{authCode} and
+            </if>
+            <if test="facTradeSeq !=null and facTradeSeq !=''">
+                facTradeSeq=#{facTradeSeq} and
+            </if>
+        </trim>
+    </delete>
+
+
+</mapper>

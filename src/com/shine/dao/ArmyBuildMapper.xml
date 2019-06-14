@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.ArmyBuildMapper">
+
+
+	<resultMap id="resultMsg" type="com.shine.amodel.ArmyBuild">
+		<id 	column="id" 				property="id"/>
+		<result column="name" 				property="name"/>
+		<result column="armyId" 			property="armyId"/>
+		<result column="buildLevel" 		property="buildLevel"/>
+		<result column="centreId" 			property="centreId"/>
+		<result column="numberCoin" 		property="numberCoin"/>
+		<result column="maxNumberCoin" 		property="maxNumberCoin"/>
+		<result column="numberExp" 			property="numberExp"/>
+		<result column="maxNumberExp"		property="maxNumberExp"/>
+		<result column="numberGem" 			property="numberGem"/>
+		<result column="type"				property="type"/>
+		<result column="count"				property="count"/>
+	</resultMap>
+
+
+	<select id="selectArmyBuildByArmyId" parameterType="Int"  resultMap="resultMsg" flushCache="true">
+		SELECT
+			id,
+			NAME,
+			armyId,
+			buildLevel,
+			centreId,
+			numberCoin,
+			maxNumberCoin,
+			numberExp,
+			maxNumberExp,
+			numberGem,
+			maxNumberGem,
+			type,
+			count
+		FROM
+			army_build
+		WHERE
+			 armyId=#{armyId}
+	</select>
+	<select id="selectArmyBuildOne" parameterType="com.shine.amodel.ArmyBuild" resultMap="resultMsg" flushCache="true">
+		SELECT
+			id,
+			NAME,
+			armyId,
+			buildLevel,
+			centreId,
+			numberCoin,
+			maxNumberCoin,
+			numberExp,
+			maxNumberExp,
+			numberGem,
+			maxNumberGem,
+			type,
+			count
+		FROM
+			army_build
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id}  and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+			<if test="type !=null and type !=''">
+				type=#{type} and
+			</if>
+		</trim>
+		order by id desc limit 1
+	</select>
+	<insert id="insertArmyBuild" parameterType="com.shine.amodel.ArmyBuild" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO army_build
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name !=null and name !=''">
+				name,
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId,
+			</if>
+			<if test="buildLevel !=null and buildLevel !=0">
+				buildLevel,
+			</if>
+			<if test="centreId !=null and centreId !=0">
+				centreId,
+			</if>
+			<if test="numberCoin !=null and numberCoin !=0">
+				numberCoin,
+			</if>
+			<if test="maxNumberCoin !=null and maxNumberCoin !=0">
+				maxNumberCoin,
+			</if>
+			<if test="numberExp !=null and numberExp !=0">
+				numberExp,
+			</if>
+			<if test="maxNumberExp !=null and maxNumberExp !=0">
+				maxNumberExp,
+			</if>
+			<if test="numberGem !=null and numberGem !=0">
+				numberGem,
+			</if>
+			<if test="maxNumberGem !=null and maxNumberGem !=0">
+				maxNumberGem,
+			</if>
+			<if test="type !=null and type !=''">
+				type,
+			</if>
+			<if test="count !=null and count !=0">
+				count,
+			</if>
+		</trim>
+		<trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+			<if test="name !=null and name !=''">
+				#{name},
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				#{armyId},
+			</if>
+			<if test="buildLevel !=null and buildLevel !=0">
+				#{buildLevel},
+			</if>
+			<if test="centreId !=null and centreId !=0">
+				#{centreId},
+			</if>
+			<if test="numberCoin !=null and numberCoin !=0">
+				#{numberCoin},
+			</if>
+			<if test="maxNumberCoin !=null and maxNumberCoin !=0">
+				#{maxNumberCoin},
+			</if>
+			<if test="numberExp !=null and numberExp !=0">
+				#{numberExp},
+			</if>
+			<if test="maxNumberExp !=null and maxNumberExp !=0">
+				#{maxNumberExp},
+			</if>
+			<if test="numberGem !=null and numberGem !=0">
+				#{numberGem},
+			</if>
+			<if test="maxNumberGem !=null and maxNumberGem !=0">
+				#{maxNumberGem},
+			</if>
+			<if test="type !=null and type !=''">
+				#{type},
+			</if>
+			<if test="count !=null and count !=0">
+				#{count},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateArmyBuild" parameterType="com.shine.amodel.ArmyBuild" useGeneratedKeys="true" keyProperty="id" flushCache="true" >
+		update army_build
+		<trim prefix="set " suffixOverrides=",">
+			<if test="name !=null and name !=''">
+				name=#{name},
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId},
+			</if>
+			<if test="buildLevel !=null and buildLevel !=0">
+				buildLevel=#{buildLevel},
+			</if>
+			<if test="centreId !=null and centreId !=0">
+				centreId=#{centreId},
+			</if>
+			<if test="numberCoin !=null and numberCoin !=0">
+				numberCoin=#{numberCoin},
+			</if>
+			<if test="maxNumberCoin !=null and maxNumberCoin !=0">
+				maxNumberCoin=#{maxNumberCoin},
+			</if>
+			<if test="numberExp !=null and numberExp !=0">
+				numberExp=#{numberExp},
+			</if>
+			<if test="maxNumberExp !=null and maxNumberExp !=0">
+				maxNumberExp=#{maxNumberExp},
+			</if>
+			<if test="numberGem !=null and numberGem !=0">
+				numberGem=#{numberGem},
+			</if>
+			<if test="maxNumberGem !=null and maxNumberGem !=0">
+				maxNumberGem=#{maxNumberGem},
+			</if>
+			<if test="type !=null and type !=''">
+				type=#{type},
+			</if>
+			<if test="count !=null and count !=0">
+				count=#{count},
+			</if>
+		</trim>
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+			<if test="type !=null and type !=''">
+				type=#{type} and
+			</if>
+		</trim>
+	</update>
+	<update id="updateArmyBuildByTemp" parameterType="com.shine.amodel.ArmyBuild" useGeneratedKeys="true" keyProperty="id" flushCache="true" >
+		UPDATE army_build
+		SET maxNumberCoin = (
+			SELECT
+			gold maxNumberCoin
+			FROM
+			building_formwork
+			WHERE
+			LEVEL = #{buildLevel}
+			AND type =  #{type}
+		),
+		buildLevel = #{buildLevel},
+		maxNumberGem = (
+			SELECT
+			diamonds maxNumberGem
+			FROM
+			building_formwork
+			WHERE
+			LEVEL =#{buildLevel}
+			AND type =  #{type}
+		),
+		maxNumberExp= (
+			SELECT
+			integral maxNumberExp
+			FROM
+			building_formwork
+			WHERE
+			LEVEL = #{buildLevel}
+			AND type =  #{type}
+		),
+		count = (
+			SELECT
+			reward count
+			FROM
+			building_formwork
+			WHERE
+			LEVEL =#{buildLevel}
+			AND type  = #{type}
+		)
+		<if test="numberCoin !=null and numberCoin !=0">
+			,numberCoin=#{numberCoin}
+		</if>
+		<if test="numberExp !=null and numberExp !=0">
+			,numberExp=#{numberExp}
+		</if>
+		<if test="numberGem !=null and numberGem !=0">
+			,numberGem=#{numberGem}
+		</if>
+		WHERE
+			armyId = #{armyId}
+		AND
+			type = #{type}
+	</update>
+
+	<delete id="deleteArmyBuild" parameterType="com.shine.amodel.ArmyBuild" >
+		DELETE army_build from army_Build
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+		</trim>
+	</delete>
+</mapper>

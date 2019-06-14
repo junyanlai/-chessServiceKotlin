@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.RechargeMapper">
+
+	<resultMap id="resultMsg" type="com.shine.amodel.Recharge">
+		<id column="rid" property="rid"/>
+		<result column="money" property="money"/>
+		<result column="accruingAmounts" property="accruingAmounts"/>
+		<result column="uid" property="uid"/>
+		<result column="time" property="time"/>
+		<result column="device" property="device"/>
+		<result column="tradeSeq" property="tradeSeq"/>
+		<result column="facTradeSeq" property="facTradeSeq"/>
+		<result column="payMentType" property="payMentType"/>
+		<result column="currency" property="currency"/>
+		<result column="myCardTradeNo" property="myCardTradeNo"/>
+		<result column="myCardType" property="myCardType"/>
+		<result column="promoCode" property="promoCode"/>
+		<result column="serialld" property="serialld"/>
+		<result column="customerId" property="customerId"/>
+	</resultMap>
+
+
+	<select id="selectRecharge" parameterType="Int" resultMap="resultMsg">
+		  SELECT
+			*
+		FROM
+			recharge_record
+		where uid=#{uid}
+	</select>
+
+	<select id="selectRechargeOne" parameterType="com.shine.amodel.Recharge" resultMap="resultMsg">
+		SELECT
+			*
+		FROM
+			recharge_record
+		<trim prefix="WHERE " suffixOverrides="and">
+			payMentType <![CDATA[<>]]> 'mail' and
+			<if test="uid !=null and uid !=0">
+				uid=#{uid} and
+			</if>
+			<if test="rid !=null and rid !=0">
+				rid=#{rid}  and
+			</if>
+		</trim>
+		order by rid desc limit 1
+	</select>
+	<select id="selectRechargeOneForCard" parameterType="com.shine.amodel.Recharge" resultMap="resultMsg">
+		SELECT
+		*
+		FROM
+		recharge_record
+		<trim prefix="WHERE " suffixOverrides="and">
+			payMentType <![CDATA[<>]]> 'mail' and
+			<if test="uid !=null and uid !=0">
+				uid=#{uid} and
+			</if>
+			<if test="rid !=null and rid !=0">
+				rid=#{rid}  and
+			</if>
+		</trim>
+		order by rid desc limit 1
+	</select>
+	<insert id="insertRecharge" parameterType="com.shine.amodel.Recharge" >
+		INSERT INTO recharge_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uid !=null and uid !=0">
+				uid,
+			</if>
+			<if test="money !=null and money !=0">
+				money,
+			</if>
+			<if test="accruingAmounts !=null and accruingAmounts !=0">
+				accruingAmounts,
+			</if>
+				time,
+			<if test="device !=null and device !=''">
+				device,
+			</if>
+			<if test="facTradeSeq !=null and facTradeSeq !=''">
+				facTradeSeq,
+			</if>
+			<if test="tradeSeq !=null and tradeSeq !=''">
+				tradeSeq,
+			</if>
+			<if test="payMentType !=null and payMentType !=''">
+				payMentType,
+			</if>
+			<if test="currency !=null and currency!=''">
+				currency,
+			</if>
+			<if test="myCardTradeNo !=null and myCardTradeNo!=''">
+				myCardTradeNo,
+			</if>
+			<if test="myCardType !=null and myCardType !=''">
+				myCardType,
+			</if>
+			<if test="promoCode !=null and promoCode !=''">
+				promoCode,
+			</if>
+			<if test="serialld !=null and serialld !=''">
+				promoCode,
+			</if>
+			<if test="customerId !=null and customerId !=''">
+				customerId,
+			</if>
+		</trim>
+		<trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+			<if test="uid !=null and uid !=0">
+				#{uid},
+			</if>
+			<if test="money !=null and money !=0">
+				#{money},
+			</if>
+			<if test="accruingAmounts !=null and accruingAmounts !=0">
+				#{accruingAmounts},
+			</if>
+				now(),
+			<if test="device !=null and device !=''">
+				#{device},
+			</if>
+			<if test="facTradeSeq !=null and facTradeSeq !=''">
+				#{facTradeSeq},
+			</if>
+			<if test="tradeSeq !=null and tradeSeq !=''">
+				#{tradeSeq},
+			</if>
+			<if test="payMentType !=null and payMentType !=''">
+				#{payMentType},
+			</if>
+			<if test="currency !=null and currency!=''">
+				#{currency},
+			</if>
+			<if test="myCardTradeNo !=null and myCardTradeNo!=''">
+				#{myCardTradeNo},
+			</if>
+			<if test="myCardType !=null and myCardType !=''">
+				#{myCardType},
+			</if>
+			<if test="promoCode !=null and promoCode !=''">
+				#{promoCode},
+			</if>
+			<if test="serialld !=null and serialld !=''">
+				#{serialld},
+			</if>
+			<if test="customerId !=null and customerId !=''">
+				#{customerId},
+			</if>
+		</trim>
+	</insert>
+</mapper>

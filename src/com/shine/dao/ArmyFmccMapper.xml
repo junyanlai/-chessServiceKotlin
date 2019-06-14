@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.ArmyFmccMapper">
+
+
+	<resultMap id="resultMsg" type="com.shine.amodel.ArmyFmcc">
+		<id 	column="id" 				property="id"/>
+		<result column="name" 				property="name"/>
+		<result column="buildId" 			property="buildId"/>
+		<result column="addition" 			property="addition"/>
+		<result column="level" 				property="level"/>
+		<result column="type" 				property="type"/>
+		<result column="number" 			property="number"/>
+		<result column="fullgold" 			property="fullgold"/>
+		<result column="nextAddition" 			property="nextAddition"/>
+	</resultMap>
+
+
+	<select id="selectArmyFmcc" parameterType="com.shine.amodel.ArmyFmcc"  resultMap="resultMsg" flushCache="true">
+		SELECT
+			id,
+			name,
+			buildId,
+			addition,
+			level,
+			type,
+			number,
+			fullgold,
+		nextAddition
+		FROM
+			army_fmcc
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id}  and
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId=#{buildId} and
+			</if>
+			<if test="type !=null and type !=''">
+				 type like concat('%',#{type},'%') and
+			</if>
+		</trim>
+	</select>
+	<select id="selectArmyTemp" parameterType="com.shine.amodel.ArmyFmcc"  resultType="Int" flushCache="true">
+		SELECT
+			supBuildLevel
+		FROM
+			building_formwork
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="level !=null and level !=0">
+				level=#{level} and
+			</if>
+			<if test="type !=null and type !=''">
+				type like concat('%',#{type},'%') and
+			</if>
+		</trim>
+
+
+	</select>
+	<select id="selectArmyFmccOne" parameterType="com.shine.amodel.ArmyFmcc" resultMap="resultMsg" flushCache="true">
+		SELECT
+			id,
+			name,
+			buildId,
+			addition,
+			level,
+			type,
+			number,
+			fullgold,
+		nextAddition
+		FROM
+			army_fmcc
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id}  and
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId=#{buildId} and
+			</if>
+			<if test="type !=null and type !=''">
+				type like concat('%',#{type},'%') and
+			</if>
+		</trim>
+		order by id desc limit 1
+	</select>
+	<insert id="insertArmyFmcc" parameterType="com.shine.amodel.ArmyFmcc" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO army_fmcc
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name !=null and name !=''">
+				name,
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId,
+			</if>
+			<if test="addition !=null and addition !=0">
+				addition,
+			</if>
+			<if test="level !=null and level !=0">
+				level,
+			</if>
+			<if test="type !=null and type !=''">
+				type,
+			</if>
+			<if test="number !=null and number !=0">
+				number,
+			</if>
+			<if test="fullgold !=null and fullgold !=0">
+				fullgold,
+			</if>
+			<if test="nextAddition !=null and nextAddition !=0">
+				nextAddition,
+			</if>
+		</trim>
+		<trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+			<if test="name !=null and name !=''">
+				#{name},
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				#{buildId},
+			</if>
+			<if test="addition !=null and addition !=0">
+				#{addition},
+			</if>
+			<if test="level !=null and level !=0">
+				#{level},
+			</if>
+			<if test="type !=null and type !=0">
+				#{type},
+			</if>
+			<if test="number !=null and number !=0">
+				#{number},
+			</if>
+			<if test="fullgold !=null and fullgold !=0">
+				#{fullgold},
+			</if>
+			<if test="nextAddition !=null and nextAddition !=0">
+				#{nextAddition},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateArmyFmcc" parameterType="com.shine.amodel.ArmyFmcc" useGeneratedKeys="true" keyProperty="id" >
+		update army_fmcc
+		<trim prefix="set " suffixOverrides=",">
+			<if test="name !=null and name !=''">
+				name=#{name},
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId=#{buildId},
+			</if>
+			<if test="addition !=null and addition !=0">
+				addition=#{addition},
+			</if>
+			<if test="level !=null and level !=0">
+				level=#{level},
+			</if>
+			<if test="type !=null and type !=''">
+				type=#{type},
+			</if>
+			<if test="number !=null ">
+				number=#{number},
+			</if>
+			<if test="fullgold !=null and fullgold !=0">
+				fullgold=#{fullgold},
+			</if>
+			<if test="nextAddition !=null and nextAddition !=0">
+				nextAddition=#{nextAddition},
+			</if>
+		</trim>
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId=#{buildId} and
+			</if>
+			<if test="type !=null and type !=''">
+				type like concat('%',#{type},'%') and
+			</if>
+		</trim>
+	</update>
+
+	<update id="updateTreeGrade" parameterType="com.shine.amodel.ArmyFmcc" >
+	  UPDATE army_fmcc
+		SET addition = (
+			SELECT
+				reward addition
+			FROM
+				building_formwork
+			WHERE
+				level = #{level}
+			AND type = #{type}
+		),
+		 LEVEL = #{level},
+		 fullgold = (
+			SELECT
+				gold fullgold
+			FROM
+				building_formwork
+			WHERE
+				level = #{level}
+			AND  type = #{type}
+		),
+		nextAddition = (
+			SELECT
+				nextReward nextAddition
+			FROM
+				building_formwork
+			WHERE
+				level = #{level}
+			AND  type = #{type}
+		)
+		<if test="number !=null">
+			,number=#{number}
+		</if>
+		where
+		buildId=#{buildId}
+		and
+		type=#{type}
+	</update>
+
+
+	<delete id="deleteArmyFmcc" parameterType="com.shine.amodel.ArmyFmcc" >
+		DELETE army_fmcc from army_fmcc
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId=#{buildId} and
+			</if>
+		</trim>
+	</delete>
+</mapper>

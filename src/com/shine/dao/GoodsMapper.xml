@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.GoodsMapper">
+
+
+    <resultMap id="resultM" type="com.shine.amodel.Goods">
+        <id column="gid" property="gid"/>
+        <result column="commodityId" property="commodityId"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="otherType" property="otherType"/>
+        <result column="buffType" property="buffType"/>
+        <result column="attribute" property="attribute"/>
+        <result column="num" property="num"/>
+        <result column="detail" property="detail"/>
+        <!--<result column="status" property="status"/>-->
+        <result column="price" property="price"/>
+        <result column="currency" property="currency"/>
+        <result column="outDate" property="outDate"/>
+        <result column="outDateType" property="outDateType"/>
+        <result column="createDate" property="createDate"/>
+        <result column="createUser" property="createUser"/>
+        <result column="goodsSex" property="goodsSex"/>
+
+    </resultMap>
+
+    <select id="getGoods" resultMap="resultM" flushCache="true">
+        SELECT
+            gid,
+            name,
+            type,
+            commodityId,
+            otherType,
+            buffType,
+            attribute,
+            num,
+             fashion,
+            detail,
+             status,
+            price,
+            currency,
+            outDate,
+            outDateType,
+            createDate,
+            createUser,
+            goodsSex
+        from goods
+    </select>
+
+    <select id="getGoodsByCommon" resultMap="resultM" flushCache="true">
+        SELECT
+            gid,
+            name,
+            type,
+            commodityId,
+            otherType,
+            buffType,
+            attribute,
+            num,
+             fashion,
+            detail,
+             status,
+            price,
+            currency,
+            outDate,
+            outDateType,
+            createDate,
+            createUser,
+            goodsSex
+        from goods where status=1 and type in ('all','common')
+    </select>
+    <select id="getGoodsByType"  parameterType="com.shine.amodel.Goods" resultMap="resultM" flushCache="true">
+        SELECT
+            gid,
+            name,
+            type,
+            commodityId,
+            otherType,
+            buffType,
+            attribute,
+            num,
+             fashion,
+            detail,
+             status,
+            price,
+            currency,
+            outDate,
+            outDateType,
+            createDate,
+            createUser,
+            goodsSex
+        from goods where status=1 and type like concat('%',#{type},'%') or type like concat('%','all','%')
+    </select>
+
+    <select id="getGoodsByArmy"  parameterType="com.shine.amodel.Goods" resultMap="resultM" flushCache="true">
+        SELECT
+            gid,
+            name,
+            type,
+            commodityId,
+            otherType,
+            buffType,
+            attribute,
+            num,
+             fashion,
+            detail,
+             status,
+            price,
+            currency,
+            outDate,
+            outDateType,
+            createDate,
+            createUser,
+            goodsSex
+        from goods where status=1 and type like concat('%','army','%') or type like concat('%','all','%')
+    </select>
+
+    <select id="goodsSelectOne" resultType="com.shine.amodel.Goods" parameterType="int" flushCache="true">
+        SELECT
+            gid,
+            name,
+            type,
+            otherType,
+            buffType,
+            attribute,
+            commodityId,
+            num,
+#             fashion,
+            detail,
+#             status,
+            price,
+            currency,
+            outDate,
+            outDateType,
+            createDate,
+            createUser,
+            goodsSex
+        from goods
+             where
+                commodityId=#{commodityId}
+    </select>
+
+    <select id="goodsSelectOneByGoods" resultType="com.shine.amodel.Goods" parameterType="com.shine.amodel.Goods" flushCache="true">
+        SELECT
+        gid,
+        name,
+        type,
+        otherType,
+        buffType,
+        attribute,
+        commodityId,
+        num,
+        #             fashion,
+        detail,
+        #             status,
+        price,
+        currency,
+        outDate,
+        outDateType,
+        createDate,
+        createUser,
+        goodsSex
+        from goods
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="commodityId !=null and commodityId !=0">
+                commodityId=#{commodityId} and
+            </if>
+            <if test="type !=null and type !=''">
+                type like concat('%',#{type},'%') and
+            </if>
+            <if test="buffType !=null and buffType !=''">
+                buffType=#{buffType} and
+            </if>
+        </trim>
+        order by commodityId desc limit 1
+    </select>
+
+
+
+    <insert id="insertGoods" parameterType="com.shine.amodel.Goods" >
+        REPLACE INTO goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name !=null and name !=''">
+                name,
+            </if>
+            <if test="type !=null and type !=''">
+                type,
+            </if>
+            <if test="otherType !=null and otherType !=''">
+                otherType,
+            </if>
+            <if test="num !=null and num !=0">
+                num,
+            </if>
+            <if test="fashion !=null and fashion !=0">
+                fashion,
+            </if>
+            <if test="detail !=null and detail !=''">
+                detail,
+            </if>
+            <if test="status !=null ">
+                status,
+            </if>
+            <if test="price !=null and price!=0 ">
+                price,
+            </if>
+            <if test="currency !=null and currency !=''">
+                currency,
+            </if>
+            <if test="outDate !=null and outDate !=''">
+                outDate,
+            </if>
+            <if test="outDateType !=null and outDateType !=''">
+                outDateType,
+            </if>
+            <if test="buffType !=null and buffType !=''">
+                buffType,
+            </if>
+            <if test="attribute !=null and attribute !=0">
+                attribute,
+            </if>
+            <if test="commodityId !=null and commodityId !=0">
+                commodityId,
+            </if>
+            createDate,
+            createUser
+        </trim>
+        <trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+            <if test="name !=null and name !=''">
+                #{name},
+            </if>
+            <if test="type !=null and type !=''">
+                #{type} ,
+            </if>
+            <if test="otherType !=null and otherType !=''">
+                #{otherType} ,
+            </if>
+            <if test="num !=null and num !=0">
+                #{num} ,
+            </if>
+            <if test="fashion !=null and fashion !=0">
+                #{fashion},
+            </if>
+            <if test="detail !=null and detail !=''">
+                #{detail},
+            </if>
+            <if test="status !=null ">
+                #{status} ,
+            </if>
+            <if test="price !=null and price!=0 ">
+                #{price},
+            </if>
+            <if test="currency !=null and currency !=''">
+                #{currency} ,
+            </if>
+            <if test="outDate !=null and outDate !=''">
+                #{outDate} ,
+            </if>
+            <if test="outDateType !=null and outDateType !=''">
+                #{outDateType},
+            </if>
+            <if test="buffType !=null and buffType !=''">
+                #{buffType}  ,
+            </if>
+            <if test="attribute !=null and attribute !=0">
+                #{attribute} ,
+            </if>
+            <if test="commodityId !=null and commodityId !=0">
+                #{commodityId} ,
+            </if>
+            now(),
+            0
+        </trim>
+    </insert>
+    <delete id="deleteGoods" parameterType="com.shine.amodel.Goods">
+        delete from goods
+        <where>
+            <if test="commodityId !=null and commodityId!=''">
+                commodityId =#{commodityId}
+            </if>
+        </where>
+    </delete>
+    <update id="updateGoods" parameterType="com.shine.amodel.Goods" >
+        update goods
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name !=null and name !=''">
+                name=#{name},
+            </if>
+            <if test="type !=null and type !=''">
+                type=#{type},
+            </if>
+            <if test="otherType !=null and otherType !=''">
+                otherType=#{otherType},
+            </if>
+            <if test="buffType !=null and buffType !=''">
+                buffType=#{buffType},
+            </if>
+            <if test="attribute !=null and attribute !=0">
+                attribute=#{attribute},
+            </if>
+            <if test="num !=null and num !=0">
+                num=#{num},
+            </if>
+            <if test="detail !=null and detail !=''">
+                detail=#{detail},
+            </if>
+            <if test="price !=null and price !=0">
+                price=#{price},
+            </if>
+            <if test="currency !=null and currency !=''">
+                currency=#{currency},
+            </if>
+            <if test="outDate !=null and outDate !=''">
+                outDate=#{outDate},
+            </if>
+            <if test="outDateType !=null and outDateType !=''">
+                outDateType=#{outDateType},
+            </if>
+        </trim>
+        <trim prefix="WHERE " suffixOverrides="and">
+            <if test="commodityId !=null and commodityId !=0">
+                commodityId=#{commodityId} and
+            </if>
+        </trim>
+    </update>
+
+</mapper>

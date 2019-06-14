@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.StoreMapper">
+
+
+	<resultMap id="resultMsg" type="com.shine.amodel.Store" >
+		<id column="sid" property="sid"/>
+		<result column="uid" property="uid"/>
+		<result column="commodityId" property="commodityId"/>
+		<result column="goodsCount" property="goodsCount"/>
+		<result column="goodsState" property="goodsState"/>
+		<result column="goodsType" property="goodsType"/>
+		<result column="name" property="name"/>
+		<result column="detail" property="detail"/>
+        <result column="priority" property="priority"/>
+	</resultMap>
+
+	<select id="storeGetOne" parameterType="com.shine.amodel.Store" resultType="com.shine.amodel.Store">
+        SELECT
+            sid,
+            uid,
+            commodityId ,
+            name,
+            detail,
+            goodsCount,
+            goodsState,
+            goodsType,
+            priority
+        FROM store
+        WHERE uid=#{uid} and commodityId=#{commodityId} order by sid DESC  limit 1
+    </select>
+	<!--resultMap="resultMsg"-->
+	<select id="storeGet" parameterType="int"  resultMap="resultMsg">
+        SELECT
+            sid,
+            uid,
+            commodityId,
+            name,
+            detail,
+            goodsCount,
+            goodsState,
+            goodsType,
+            priority
+        FROM store
+        WHERE uid=#{uid} and goodsCount>0
+    </select>
+	<select id="storeGetByState" parameterType="com.shine.amodel.Store"  resultMap="resultMsg">
+        SELECT
+            sid,
+            uid,
+            commodityId,
+            name,
+            detail,
+            goodsCount,
+            goodsState,
+            goodsType,
+        priority
+        FROM store
+        WHERE uid=#{uid} and goodsCount>0
+        <if test="goodsState !=null and goodsState !=0">
+			and goodsState=#{goodsState}
+		</if>
+        <if test="goodsType !=null and goodsType !=0">
+            and goodsType=#{goodsType}
+        </if>
+    </select>
+	<select id="selectStoreCount" parameterType="com.shine.amodel.Store" resultType="Int">
+        select  count(0) from store where uid=#{uid} and goodsType=#{goodsType}
+    </select>
+
+
+	<insert id="goodsAdd" parameterType="com.shine.amodel.Store" useGeneratedKeys="true" keyProperty="uid">
+        INSERT into
+        store(uid,commodityId,name,detail,goodsCount,createUser,createDate,goodsState,goodsType,
+            priority)
+        VALUES
+        (#{uid},#{commodityId},#{name},#{detail},#{goodsCount},#{uid},now(),0,#{goodsType},#{priority})
+    </insert>
+
+	<update id="updateGoodsCount" parameterType="com.shine.amodel.Store" useGeneratedKeys="true" keyProperty="uid">
+		UPDATE store
+		<trim prefix="set" suffixOverrides=",">
+			<if test="goodsCount !=null">
+				goodsCount=#{goodsCount},
+			</if>
+			<if test="goodsState !=null ">
+				goodsState=#{goodsState},
+			</if>
+            <if test="priority !=null ">
+                priority=#{priority},
+            </if>
+		</trim>
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="uid !=null and uid !=0">
+				uid=#{uid} and
+			</if>
+			<if test="commodityId !=null and commodityId !=0">
+				commodityId=#{commodityId} and
+			</if>
+			<if test="sid !=null and sid !=0">
+				sid=#{sid} and
+			</if>
+			<if test="goodsType !=null and goodsType !=''">
+				goodsType=#{goodsType} and
+			</if>
+		</trim>
+	</update>
+
+	<delete id="deleteStore" parameterType="com.shine.amodel.Store">
+      DELETE store from store where uid=#{uid} and  commodityId=#{commodityId}
+    </delete>
+</mapper>

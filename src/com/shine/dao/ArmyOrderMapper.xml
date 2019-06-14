@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.ArmyOrderMapper">
+
+	<resultMap id="resultMsg" type="com.shine.amodel.ArmyOrder"  >
+		<id 	column="id" 				property="id"  />
+		<result column="uid" 				property="uid" />
+		<result column="name" 				property="name"/>
+		<result column="armyId" 			property="armyId"/>
+		<result column="buildId" 			property="buildId"/>
+		<result column="time" 				property="time"/>
+		<result column="orderLevel" 		property="orderLevel"/>
+		<result column="getProvisions" 		property="getProvisions"/>
+		<result column="getGold"			property="getGold"/>
+		<result column="status"				property="status"/>
+		<result column="outDate"			property="outDate"/>
+		<result column="fullGold"			property="fullGold"/>
+
+	</resultMap>
+
+	<select id="selectArmyOrder" parameterType="Int"  resultMap="resultMsg" flushCache="true">
+		SELECT
+			id,
+			uid,
+			name,
+			time,
+			armyId,
+			buildId,
+			orderLevel,
+			getProvisions,
+			getGold,
+			status,
+			fullGold,
+			outDate
+		FROM
+			army_order
+		WHERE
+			 uid=#{uid}
+	</select>
+	<select id="selectArmyOrderOne" parameterType="com.shine.amodel.ArmyOrder" resultMap="resultMsg" flushCache="true">
+		SELECT
+			id,
+			uid,
+			name,
+			time,
+			armyId,
+		buildId,
+			orderLevel,
+			getProvisions,
+			getGold,
+			status,
+			fullGold,
+		outDate
+		FROM
+			army_order
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id}  and
+			</if>
+			<if test="uid !=null and uid !=0">
+				uid=#{uid}  and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId=#{buildId} and
+			</if>
+		</trim>
+		order by id desc limit 1
+	</select>
+	<insert id="insertArmyOrder" parameterType="com.shine.amodel.ArmyOrder" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO army_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uid !=null and uid !=''">
+				uid,
+			</if>
+			<if test="name !=null and name !=''">
+				name,
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId,
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId,
+			</if>
+			<if test="time !=null and time !=0">
+				time,
+			</if>
+			<if test="orderLevel !=null and orderLevel !=0">
+				orderLevel,
+			</if>
+			<if test="getProvisions !=null and getProvisions !=0">
+				getProvisions,
+			</if>
+			<if test="getGold !=null and getGold !=0">
+				getGold,
+			</if>
+			<if test="status !=null ">
+				status,
+			</if>
+			<if test="fullGold !=null and fullGold !=0">
+				fullGold,
+			</if>
+			<if test="outDate !=null and outDate !=0">
+				outDate,
+			</if>
+		</trim>
+		<trim prefix="VALUES ("  suffix=")" suffixOverrides=",">
+			<if test="uid !=null and uid !=0">
+				#{uid},
+			</if>
+			<if test="name !=null and name !=''">
+				#{name},
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				#{armyId},
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				#{buildId},
+			</if>
+			<if test="time !=null and time !=0">
+				#{time},
+			</if>
+			<if test="orderLevel !=null and orderLevel !=0">
+				#{orderLevel},
+			</if>
+			<if test="getProvisions !=null and getProvisions !=0">
+				#{getProvisions},
+			</if>
+			<if test="getGold !=null and getGold !=0">
+				#{getGold},
+			</if>
+			<if test="status !=null ">
+				#{status},
+			</if>
+			<if test="fullGold !=null and fullGold !=0">
+				#{fullGold},
+			</if>
+			<if test="outDate !=null and outDate !=0">
+				#{outDate},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateArmyOrder" parameterType="com.shine.amodel.ArmyOrder" useGeneratedKeys="true" keyProperty="id" >
+		update army_order
+		<trim prefix="set " suffixOverrides=",">
+			<if test="name !=null and name !=''">
+				name=#{name},
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId},
+			</if>
+			<if test="buildId !=null and buildId !=0">
+				buildId=#{buildId},
+			</if>
+			<if test="time !=null and time !=0">
+				time=#{time},
+			</if>
+			<if test="orderLevel !=null and orderLevel !=0">
+				orderLevel=#{orderLevel},
+			</if>
+			<if test="getProvisions !=null and getProvisions !=0">
+				getProvisions=#{getProvisions},
+			</if>
+			<if test="getGold !=null and getGold !=0">
+				getGold=#{getGold},
+			</if>
+			<if test="status !=null and status !=0">
+				status=#{status},
+			</if>
+			<if test="fullGold !=null and fullGold !=0">
+				fullGold=#{fullGold},
+			</if>
+			<if test="outDate !=null and outDate !=0">
+				outDate=#{outDate},
+			</if>
+		</trim>
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="uid !=null and uid !=0">
+				uid=#{uid}  and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+		</trim>
+	</update>
+
+
+	<delete id="deleteArmyOrder" parameterType="com.shine.amodel.ArmyOrder" >
+		DELETE army_order from army_order
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="id !=null and id !=0">
+				id=#{id} and
+			</if>
+			<if test="uid !=null and uid !=0">
+				uid=#{uid} and
+			</if>
+			<if test="armyId !=null and armyId !=0">
+				armyId=#{armyId} and
+			</if>
+		</trim>
+	</delete>
+</mapper>

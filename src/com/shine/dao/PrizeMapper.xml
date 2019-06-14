@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shine.dao.PrizeMapper">
+
+	<!--  <insert id="fmccAdd" parameterType="java.util.Map">
+             ALTER TABLE fmcc ADD `${column}` int(11) DEFAULT 0 NULL;
+        </insert>-->
+
+	<resultMap id="resultMsg" type="com.shine.amodel.Prize">
+		<id     column="pid" 		 property="pid"/>
+		<result column="atid" 		 property="atid"/>
+		<result column="atname" 	 property="atname"/>
+		<result column="commodityId" property="commodityId"/>
+		<result column="goodsType" 	 property="goodsType"/>
+		<result column="award" 		 property="award"/>
+		<result column="teps" 		 property="teps"/>
+	</resultMap>
+
+
+	<select id="selectPrizeByTempId" parameterType="Int" resultMap="resultMsg" >
+		SELECT
+			p.pid,
+			p.atid,
+			p.atname,
+			p.commodityId,
+			p.goodsType,
+			p.award,
+			a.teps
+		FROM
+		  prize p left join achievement_temp a on p.atid=a.atid
+			where p.atid=#{atid}
+	</select>
+
+
+	<insert id="insertPrize" parameterType="com.shine.amodel.Prize" useGeneratedKeys="true" keyProperty="pid">
+		INSERT INTO prize
+		(`atid`, `atname`, `commodityId`, `goodsType`, `award` )
+		VALUES
+		(#{atid},#{atname},#{commodityId},#{goodsType},#{award})
+	</insert>
+
+	<update id="updatePrize" parameterType="com.shine.amodel.Prize" useGeneratedKeys="true" keyProperty="pid" >
+		update prize
+		<trim prefix="set" suffixOverrides=",">
+			<if test="atname !=null and atname !=''">
+				atname=#{atname},
+			</if>
+			<if test="commodityId !=null and commodityId !=''">
+				commodityId=#{commodityId},
+			</if>
+			<if test="goodsType !=null and goodsType !=''">
+				goodsType=#{goodsType},
+			</if>
+			<if test="award !=null and award !=0">
+				award=#{award},
+			</if>
+		</trim>
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="atid !=null and atid !=0">
+				atid=#{atid} and
+			</if>
+			<if test="pid !=null and pid !=0">
+				pid=#{pid} and
+			</if>
+		</trim>
+	</update>
+
+
+	<delete id="deletePrize" parameterType="com.shine.amodel.Prize" >
+		DELETE prize from prize
+		<trim prefix="WHERE " suffixOverrides="and">
+			<if test="pid !=null and pid !=0">
+				pid=#{pid} and
+			</if>
+			<if test="atid !=null and atid !=0">
+				atid=#{atid} and
+			</if>
+		</trim>
+	</delete>
+</mapper>
